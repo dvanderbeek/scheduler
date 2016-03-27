@@ -29,10 +29,9 @@ schedule = loan.payment_schedules.create
 
 loan.update(payment_schedule: schedule)
 
-funding_date = Date.current
 (1..12).each do |n|
   schedule.payments.create({
-    due_date: funding_date + n.months,
+    due_date: Date.current + n.months,
     amount_cents: 10000,
     interest_rate: 0.15,
   })
