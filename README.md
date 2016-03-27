@@ -38,7 +38,10 @@ loan.update(payment_schedule: schedule)
 end
 
 loan.amount_due_dollars(as_of: 3.months.from_now)
-loan.interest_rate
+#=> 300.0
+
+loan.interest_rate.to_f
+#=> 0.15
 ```
 
 Guidelines
