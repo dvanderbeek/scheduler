@@ -5,6 +5,10 @@ class Payment < ActiveRecord::Base
 
   default_scope -> { order(due_date: :asc) }
 
+  def self.active
+    where(payment_schedule_id: Loan.pluck(:payment_schedule_id))
+  end
+
   def self.after(date = Date.current)
     where('due_date > ?', date)
   end

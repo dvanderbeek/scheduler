@@ -25,17 +25,19 @@ Basic Usage
 ```ruby
 loan = Loan.create
 
-schedule = loan.payment_schedules.create
-
-loan.update(payment_schedule: schedule)
+schedule = loan.payment_schedules.new
 
 (1..12).each do |n|
-  schedule.payments.create({
+  schedule.payments.build({
     due_date: Date.current + n.months,
-    amount_cents: 10000,
+    amount_cents: n > 2 ? 15000 : 10000,
     interest_rate: 0.15,
   })
 end
+
+schedule.save
+
+loan.update(payment_schedule: schedule)
 
 loan.amount_due_dollars(as_of: 3.months.from_now)
 #=> 300.0
@@ -43,6 +45,11 @@ loan.amount_due_dollars(as_of: 3.months.from_now)
 loan.interest_rate.to_f
 #=> 0.15
 ```
+
+To Do
+-----
+
+Copy past payments from previous payment schedule when creating a new one
 
 Guidelines
 ----------

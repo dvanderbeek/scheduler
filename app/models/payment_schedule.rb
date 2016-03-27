@@ -2,6 +2,10 @@ class PaymentSchedule < ActiveRecord::Base
   belongs_to :loan
   has_many :payments
 
+  def self.active
+    where(id: Loan.pluck(:payment_schedule_id))
+  end
+
   def amount_due_cents(as_of: Date.current)
     payments.past(as_of: as_of, including_today: true).sum(:amount_cents)
   end
