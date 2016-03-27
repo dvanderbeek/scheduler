@@ -1,6 +1,8 @@
 class PaymentSchedule < ActiveRecord::Base
   belongs_to :loan
-  has_many :payments
+  has_many :payments, dependent: :destroy
+
+  validates :loan, presence: true
 
   def self.active
     where(id: Loan.pluck(:payment_schedule_id))

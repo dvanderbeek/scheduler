@@ -23,19 +23,19 @@ Basic Usage
 -----------
 
 ```ruby
-loan = Loan.create
+loan = Loan.new
 
-schedule = loan.payment_schedules.create
-
-loan.update(payment_schedule: schedule)
+loan.payment_schedule = loan.payment_schedules.build
 
 (1..12).each do |n|
-  schedule.payments.create({
+  loan.payment_schedule.payments.build({
     due_date: Date.current + n.months,
     amount_cents: 10000,
     interest_rate: 0.15,
   })
 end
+
+loan.save
 
 loan.amount_due_dollars(as_of: 3.months.from_now)
 #=> 300.0
