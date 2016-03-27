@@ -9,19 +9,19 @@ class Payment < ActiveRecord::Base
     where(payment_schedule_id: Loan.pluck(:payment_schedule_id))
   end
 
-  def self.after(date = Date.current)
+  def self.after(date)
     where('due_date > ?', date)
   end
 
-  def self.before(date = Date.current)
+  def self.before(date)
     where('due_date < ?', date)
   end
 
-  def self.on_or_after(date = Date.current)
+  def self.on_or_after(date)
     where('due_date >= ?', date)
   end
 
-  def self.on_or_before(date = Date.current)
+  def self.on_or_before(date)
     where('due_date <= ?', date)
   end
 
