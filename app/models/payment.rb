@@ -8,7 +8,7 @@ class Payment < ActiveRecord::Base
   validates :due_date, :payment_schedule, :amount_cents, :interest_rate, presence: true
 
   def self.active
-    joins(:payment_schedule).merge(PaymentSchedule.active)
+    where(payment_schedule: LatestSchedule.pluck(:id))
   end
 
   def self.after(date)

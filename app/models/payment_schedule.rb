@@ -5,8 +5,7 @@ class PaymentSchedule < ActiveRecord::Base
   validates :loan, presence: true
 
   def self.active
-    # TODO: Should probably select max created_at
-    where("payment_schedules.id IN (SELECT MAX(payment_schedules.id) FROM payment_schedules GROUP BY loan_id)")
+    LatestSchedule.all
   end
 
   def self.current(as_of: Date.current)

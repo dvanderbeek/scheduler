@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160328134353) do
+ActiveRecord::Schema.define(version: 20160328145351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,4 +43,14 @@ ActiveRecord::Schema.define(version: 20160328134353) do
 
   add_foreign_key "payment_schedules", "loans"
   add_foreign_key "payments", "payment_schedules"
+
+  create_view :latest_schedules,  sql_definition: <<-SQL
+      SELECT DISTINCT ON (payment_schedules.loan_id) payment_schedules.id,
+      payment_schedules.loan_id,
+      payment_schedules.created_at,
+      payment_schedules.updated_at
+     FROM payment_schedules
+    ORDER BY payment_schedules.loan_id, payment_schedules.created_at DESC;
+  SQL
+
 end
