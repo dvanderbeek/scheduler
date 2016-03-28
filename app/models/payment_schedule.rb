@@ -5,7 +5,7 @@ class PaymentSchedule < ActiveRecord::Base
   validates :loan, presence: true
 
   def self.active
-    LatestSchedule.all
+    where(id: LatestSchedule.pluck(:id))
   end
 
   def self.current(as_of: Date.current)
