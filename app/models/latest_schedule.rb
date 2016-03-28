@@ -1,9 +1,6 @@
 class LatestSchedule < ActiveRecord::Base
   belongs_to :loan
+  has_many :payments, foreign_key: :payment_schedule_id
 
-  default_scope -> { order(created_at: :desc) }
-
-  def payments
-    Payment.where(payment_schedule: self.id)
-  end
+  self.primary_key = :id
 end
