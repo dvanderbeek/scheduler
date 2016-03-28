@@ -28,11 +28,11 @@ loan = Loan.new
 payment_schedule = loan.payment_schedules.build
 
 (1..12).each do |n|
-  payment_schedule.payments.build({
+  payment_schedule.payments.build(
     due_date: Date.current + n.months,
     amount_cents: 10000,
     interest_rate: 0.15,
-  })
+  )
 end
 
 loan.save
