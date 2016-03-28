@@ -25,12 +25,12 @@ Basic Usage
 ```ruby
 loan = Loan.new
 
-loan.payment_schedule = loan.payment_schedules.build
+payment_schedule = loan.payment_schedules.build
 
 (1..12).each do |n|
-  loan.payment_schedule.payments.build({
+  payment_schedule.payments.build({
     due_date: Date.current + n.months,
-    amount_cents: 10000,
+    amount_cents: 20000,
     interest_rate: 0.15,
   })
 end

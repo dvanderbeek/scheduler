@@ -5,7 +5,12 @@ class PaymentSchedule < ActiveRecord::Base
   validates :loan, presence: true
 
   def self.active
-    where(id: Loan.pluck(:payment_schedule_id))
+    # TODO: Should probably select max created_at
+    where("payment_schedules.id IN (SELECT MAX(payment_schedules.id) FROM payment_schedules GROUP BY loan_id)")
+  end
+
+  def self.current(as_of: Date.current)
+    where('created_at <= ?', as_of.end_of_day).order(created_at: :asc).last
   end
 
   def amount_due_cents(as_of: Date.current)
