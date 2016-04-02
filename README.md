@@ -34,12 +34,6 @@ Loan.create do |loan|
     end
   end
 end
-
-loan.amount_due_dollars(as_of: 3.months.from_now)
-#=> 300.0
-
-loan.interest_rate.to_f
-#=> 0.15
 ```
 
 Guidelines

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160328145351) do
+ActiveRecord::Schema.define(version: 20160402201016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,7 +33,6 @@ ActiveRecord::Schema.define(version: 20160328145351) do
     t.date     "due_date"
     t.integer  "payment_schedule_id"
     t.integer  "amount_cents"
-    t.decimal  "interest_rate"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
   end
@@ -45,12 +44,7 @@ ActiveRecord::Schema.define(version: 20160328145351) do
   add_foreign_key "payments", "payment_schedules"
 
   create_view :latest_schedules,  sql_definition: <<-SQL
-      SELECT DISTINCT ON (payment_schedules.loan_id) payment_schedules.id,
-      payment_schedules.loan_id,
-      payment_schedules.created_at,
-      payment_schedules.updated_at
-     FROM payment_schedules
-    ORDER BY payment_schedules.loan_id, payment_schedules.created_at DESC;
+      SELECT DISTINCT ON (payment_schedules.loan_id) payment_schedules.id, payment_schedules.loan_id, payment_schedules.created_at, payment_schedules.updated_at FROM payment_schedules ORDER BY payment_schedules.loan_id, payment_schedules.created_at DESC;
   SQL
 
 end

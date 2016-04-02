@@ -5,7 +5,7 @@ class Payment < ActiveRecord::Base
 
   default_scope -> { order(due_date: :asc) }
 
-  validates :due_date, :payment_schedule, :amount_cents, :interest_rate, presence: true
+  validates :due_date, :payment_schedule, :amount_cents, presence: true
 
   def self.active
     where(payment_schedule: LatestSchedule.pluck(:id))
