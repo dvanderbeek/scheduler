@@ -3,11 +3,11 @@ class Payment < ActiveRecord::Base
   has_many :payments, through: :payment_schedule
   has_one :loan, through: :payment_schedule
 
-  default_scope -> { order(due_date: :asc) }
+  default_scope -> { order(date: :asc) }
 
   before_validation :set_defaults, on: :create
 
-  validates :due_date, :payment_schedule, :amount_due_cents, :amount_cents, presence: true
+  validates :date, :payment_schedule, :amount_due_cents, :amount_cents, presence: true
 
   def self.active
     where(payment_schedule: LatestSchedule.pluck(:id))
@@ -19,19 +19,19 @@ class Payment < ActiveRecord::Base
   end
 
   def self.after(date)
-    where('due_date > ?', date)
+    where('date > ?', date)
   end
 
   def self.before(date)
-    where('due_date < ?', date)
+    where('date < ?', date)
   end
 
   def self.on_or_after(date)
-    where('due_date >= ?', date)
+    where('date >= ?', date)
   end
 
   def self.on_or_before(date)
-    where('due_date <= ?', date)
+    where('date <= ?', date)
   end
 
   def self.future(as_of: Date.current, including_today: true)
@@ -51,11 +51,11 @@ class Payment < ActiveRecord::Base
   end
 
   def previous
-    payments.previous(as_of: due_date)
+    payments.previous(as_of: date)
   end
 
   def next
-    payments.next(as_of: due_date, including_today: false)
+    payments.next(as_of: date, including_today: false)
   end
 
   private
