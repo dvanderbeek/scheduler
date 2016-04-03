@@ -5,8 +5,6 @@ class Payment < ActiveRecord::Base
 
   default_scope -> { order(date: :asc) }
 
-  before_validation :set_defaults, on: :create
-
   validates :date, :payment_schedule, :amount_due_cents, :amount_cents, presence: true
 
   def self.active
@@ -56,11 +54,5 @@ class Payment < ActiveRecord::Base
 
   def next
     payments.next(as_of: date, including_today: false)
-  end
-
-  private
-
-  def set_defaults
-    self.amount_due_cents ||= self.amount_cents
   end
 end
