@@ -12,7 +12,8 @@ class Payment < ActiveRecord::Base
   end
 
   def self.as_of(date)
-    unscope(where: :payment_schedule_id).where(payment_schedule: PaymentSchedule.as_of(date))
+    unscope(where: :payment_schedule_id).
+      where(payment_schedule: PaymentSchedule.as_of(date))
   end
 
   def self.after(date)
