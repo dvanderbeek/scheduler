@@ -52,6 +52,8 @@ loan.payment_schedules.as_of(2.days.ago)
 loan.payments
 loan.payments.as_of(2.days.ago)
 loan.payments.last.previous
+
+# Payments on the same day - previous & next probably won't work
 ```
 
 Guidelines
