@@ -5,7 +5,9 @@ class Payment < ActiveRecord::Base
 
   default_scope -> { order(due_date: :asc) }
 
-  validates :due_date, :payment_schedule, :amount_due_cents, :amount_scheduled_cents, presence: true
+  before_validation :set_defaults, on: :create
+
+  validates :due_date, :payment_schedule, :amount_due_cents, :amount_cents, presence: true
 
   def self.active
     where(payment_schedule: LatestSchedule.pluck(:id))
@@ -56,7 +58,9 @@ class Payment < ActiveRecord::Base
     payments.next(as_of: due_date, including_today: false)
   end
 
-  def amount_cents=(amount)
-    self.amount_due_cents = self.amount_scheduled_cents = amount
+  private
+
+  def set_defaults
+    self.amount_due_cents ||= self.amount_cents
   end
 end
