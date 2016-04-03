@@ -1,7 +1,21 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+Loan.create do |loan|
+  loan.payment_schedules.build do |payment_schedule|
+    payment_schedule.created_at = 2.days.ago
+    payment_schedule.updated_at = 2.days.ago
+    (1..12).each do |n|
+      payment_schedule.payments.build(
+        due_date: 2.days.ago + n.months,
+        amount_cents: 10000,
+      )
+    end
+  end
+
+  loan.payment_schedules.build do |payment_schedule|
+    (1..12).each do |n|
+      payment_schedule.payments.build(
+        due_date: Date.current + n.months,
+        amount_cents: 10000,
+      )
+    end
+  end
+end
