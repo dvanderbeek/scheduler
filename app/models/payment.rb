@@ -11,6 +11,10 @@ class Payment < ActiveRecord::Base
     where(payment_schedule: LatestSchedule.pluck(:id))
   end
 
+  def self.as_of(date)
+    unscope(where: :payment_schedule_id).where(payment_schedule: PaymentSchedule.as_of(date))
+  end
+
   def self.after(date)
     where('due_date > ?', date)
   end
