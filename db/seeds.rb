@@ -4,7 +4,7 @@ Loan.create do |loan|
     payment_schedule.updated_at = 2.days.ago
     (1..12).each do |n|
       payment_schedule.payments.build(
-        due_date: 2.days.ago + n.months,
+        date: 2.days.ago + n.months,
         amount_cents: 10000,
         amount_due_cents: 10000,
       )
@@ -14,7 +14,7 @@ Loan.create do |loan|
   loan.payment_schedules.build do |payment_schedule|
     (1..12).each do |n|
       payment_schedule.payments.build(
-        due_date: Date.current + n.months,
+        date: Date.current + n.months,
         amount_cents: 50000,
         amount_due_cents: 50000,
       )
